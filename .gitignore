@@ -1,0 +1,14 @@
+# ~
+.bash_history
+.bash_logout
+.bashrc
+.cache/
+.jupyter/
+.local/
+.profile
+.sudo_as_admin_successful
+.wget-hsts
+__pycache__/
+
+# File Extension
+*.pyc
