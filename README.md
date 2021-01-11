@@ -19,6 +19,14 @@ if __name__ == '__main__':
     application.run(host = '0.0.0.0', debug = True, port = 805X) # write your port number
 
 
+## Commands
+git init
+git clone http...
+git add <file>
+git commit -m 'Your Message'
+git remote -v
+git branch
+
 ## Advanced Commands
 git reset -- <file>
   to unstage deleted files..
