@@ -7,7 +7,8 @@ import pandas as pd
 import plotly.graph_objs as go
 from textwrap import dedent
 
-df = pd.read_csv('data/AreaPredto2021.csv')
+df = pd.read_csv(
+    '../data/AreaPredto2021.csv')
 df['Date'] = pd.to_datetime(df['Date'], infer_datetime_format=True)
 df['value'] = df['value'].astype('int')
 
@@ -42,6 +43,7 @@ fig.update_layout(
 app = dash.Dash(__name__)
 application = app.server
 
+
 # 1. layout
 app.layout = html.Div(
     style={
@@ -65,7 +67,7 @@ app.layout = html.Div(
                               value=['松山區']),
                           # Graph 1
                           html.H2(
-                              children='2014-2022年 台北市行政區房價預測',
+                              children='2014-2021年 台北市行政區房價預測',
                               style={'textAlign': 'center',
                                      'color': '#00818A'}),
 
@@ -132,4 +134,5 @@ def update_graph(Area_values):
 
 # 3. Name Convention
 if __name__ == '__main__':
+    # app.run_server(host="localhost")
     application.run(host = '0.0.0.0', debug = True, port = 8052)
