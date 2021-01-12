@@ -8,7 +8,7 @@ import plotly.graph_objs as go
 from textwrap import dedent
 
 df = pd.read_csv(
-    '../data/AreaPredto2021.csv')
+    'data/AreaPredto2021.csv')
 df['Date'] = pd.to_datetime(df['Date'], infer_datetime_format=True)
 df['value'] = df['value'].astype('int')
 

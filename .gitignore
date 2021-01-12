@@ -6,6 +6,7 @@
 .jupyter/
 .local/
 .profile
+.ssh/
 .sudo_as_admin_successful
 .wget-hsts
 __pycache__/
