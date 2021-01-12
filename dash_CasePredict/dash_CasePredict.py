@@ -44,24 +44,18 @@ import re
 app = dash.Dash(__name__)
 application = app.server
 
-df = pd.DataFrame({
-    "Category": ["Population", "Denm", "Bananas", "Apples", "Bananas", "Capital"],
-    "Amount": [40000, 10000, 20000, 20000, 40000, 50000]
-})
-
-fig = px.bar(df, x="Category", y="Amount", barmode="group")
-
 table_head = '150px' #設定表格的縮排
 
 app.layout = html.Div([
     html.Div([
-        html.H1(children='台北市中古屋模型預測', style = {
-        }),
+    html.Div([
+        html.H1(children='台北市房屋行情快快搜'),
         html.P(children='請選擇右邊的圖示，篩選您想要了解的物件周邊設施', style = {
             'font-size':'16px'
         }),
-        html.P(children='Taipei officially Taipei City, is the capital and a special municipality of Taiwan. Located in Northern Taiwan, Taipei City is an enclave of the municipality of New Taipei City that sits about 25 km southwest of the northern port city of Keelung. Most of the city rests on the Taipei Basin, an ancient lakebed. The basin is bounded by the relatively narrow valleys of the Keelung and Xindian rivers, which join to form the Tamsui River', style = {
-            'font-size':'12px'
+        html.P(children='台北市為台灣最具代表性的房價分析區域，根據本組的巨量資料建模，選擇您想要了解的台北市中古物件，即可查看該物件的房間格局與所在區域的環境機能，更可以算出該物件的合理價格，幫助用戶評估是否高估或者低估', style = {
+            'font-size':'14px',
+            'line-height': '150%'
         }),
         dcc.Graph(
             id='gapminder',
@@ -91,7 +85,7 @@ app.layout = html.Div([
                         lat=hospital_df['Latitude'],
                         lon=hospital_df['Longitude'],
                         mode='markers',
-                        name="醫療中心",
+                        name="醫療設施",
                         marker=go.scattermapbox.Marker(
                 size = 5, color='blue', symbol='hospital'
             ),
@@ -179,7 +173,10 @@ app.layout = html.Div([
         id='example-graph'
         )
 
-], style={'marginLeft': '25%', 'marginRight': '25%', 'font-family':'微軟正黑體'})
+], style={'padding': '10%', 'font-family':'微軟正黑體','backgroundColor':'white'})
+], style={'padding':'10%','background-image':
+                    'url("https://pixy.org/src/394/thumbs350/3948974.jpg")'})
+
 
 
 @app.callback(
@@ -200,13 +197,13 @@ def update_output(hoverData):
         try:
             result_match = re.search(r'(.{2}\u5340)', address)
             value = result_match[0]
-            output1 = area_df['總人口數'][value]
-            output2 = area_df['人口密度'][value]
+            output1 = '{} 人'.format(area_df['總人口數'][value])
+            output2 = '{} 人/平方公里'.format(area_df['人口密度'][value])
             output3 = area_df['busCount'][value]
             output4 = area_df['subwayCount'][value]
             output5 = area_df['hospitalCount'][value]
             output6 = area_df['govCount'][value]
-            output7 = area_df['所得總額'][value]
+            output7 = '{} 元'.format(area_df['所得總額'][value])
             return "你的行政區為：{}".format(value), output1, output2, output3, output4, output5, output6, output7
         except:
             return '請選擇中古屋圖示','None','None','None','None','None','None', 'None'
@@ -228,11 +225,11 @@ def display_hover_data(hover_data):
         house_row = house_df[house_df['Address'] == location]
         try:
             house_out1 = house_row['建物型態'].tolist()[0]
-            house_out2 = house_row['廳數'].tolist()[0]
-            house_out3 = house_row['房間數'].tolist()[0]
-            house_out4 = house_row['衛浴數'].tolist()[0]
-            house_out5 = house_row['隔間'].tolist()[0]
-            house_out6 = house_row['管理組織'].tolist()[0]
+            house_out2 = '{} 廳'.format(house_row['廳數'].tolist()[0])
+            house_out3 = '{} 房'.format(house_row['房間數'].tolist()[0])
+            house_out4 = '{} 衛'.format(house_row['衛浴數'].tolist()[0])
+            house_out5 = '{} 隔間'.format(house_row['隔間'].tolist()[0])
+            house_out6 = '{} 管理組織'.format(house_row['管理組織'].tolist()[0])
             return "你目前位於：{}".format(location), house_out1, house_out2, house_out3, house_out4, house_out5, house_out6
         except:
             return "你目前位於：{}".format(location), 'None', 'None', 'None', 'None', 'None', 'None'
@@ -290,7 +287,6 @@ def update_bar_chart(hover_data):
             return fig
 
 
-
-
 if __name__ == '__main__':
     application.run(host = '0.0.0.0', debug = True, port = 8053)
+
