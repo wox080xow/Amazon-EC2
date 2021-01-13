@@ -127,10 +127,10 @@ app.layout = html.Div([
                 autosize=True,
                 hovermode='closest',
                 margin=dict(
-                    l=20,
-                    r=20,
-                    b=20,
-                    t=20
+                    l=5,
+                    r=5,
+                    b=5,
+                    t=5
                 ),
                 mapbox=dict(
                     accesstoken='pk.eyJ1IjoiZXJpa3NvbjA2MTEiLCJhIjoiY2tpeTRib3RnMTd6dTJ5c2Joa3diZXVqcyJ9.2Qtsf3xtMppGs5lwXvDvyw',
@@ -168,16 +168,55 @@ app.layout = html.Div([
                         ]),
             ],style={'width':'50%', 'display': 'inline-block', 'vertical-align': 'top'})
     ]),
-
     dcc.Graph(
         id='example-graph'
-        )
+        ),
+    html.Div([
+        html.Div([
+            html.H2("簡易房貸計算機(本息平均攤還法)"),
+            html.H3("頭期款占比"),
+            html.P("買房需先支付的第一筆費用，目前銀行房貸可以貸到7～8成金額"),
+            dcc.Slider(id='first_loan', min=0, max=1, step=None,
+                marks={
+                    0: '0 %', 0.1: '10 %', 0.2: '20 %', 0.3: '30 %', 0.4: '40 %', 0.5: '50 %',
+                    0.6: '60 %', 0.7: '70 %', 0.8: '80 %', 0.9: '90 %', 1: '100 %'
+                }, value=0.2),
+            html.H3("預計償還年數"),
+            dcc.Slider(id='loan_year', min=1, max=40, step=None,
+                marks={
+                    1: '1 年', 5: '5 年', 10: '10 年', 15: '15 年', 20: '20 年', 25: '25 年',
+                    30: '30 年', 35: '35 年', 40: '40 年'
+                }, value=30),
+            html.H3("寬限期"),
+            html.P("寬限期為限定的期間內，只需要償還利息，不必攤還本金的時間"),
+            dcc.Slider(id='free_year', min=0, max=5, step=None,
+                marks={
+                    0: '0 年', 1: '1 年', 2: '2 年', 3: '3 年', 4: '4 年', 5: '5 年'
+                }, value=0),
 
-], style={'padding': '10%', 'font-family':'微軟正黑體','backgroundColor':'white'})
-], style={'padding':'10%','background-image':
-                    'url("https://pixy.org/src/394/thumbs350/3948974.jpg")'})
-
-
+            html.H3(id='updatemode-output-container'),
+            dcc.Slider(id='loan_rate', min=0.001, max=0.1, step=0.0001, value=0.0131),
+            html.H3("月貸款金額占收入占比"),
+            html.P("選擇你希望每月房貸占收入占比，計算多少收入適合負擔此房屋"),
+            dcc.Slider(id='income_rate', min = 0.1, max = 1, step = None,
+                marks={
+                    0.1: '10 %', 0.2: '20 %', 0.3: '30 %', 0.4: '40 %', 0.5: '50 %',
+                    0.6: '60 %', 0.7: '70 %', 0.8: '80 %', 0.9: '90 %', 1: '100 %'
+                }, value=0.3),
+        ],style={'width':'70%', 'display': 'inline-block', 'vertical-align': 'top'}),
+        html.Div([
+            html.H5('寬限期內每月需繳納'),
+            html.H3(id = "pay_before"),
+            html.H5('寬限期後每月需繳納'),
+            html.H3(id = "pay_after"),
+            html.H5('理想每戶月收入金額'),
+            html.H3(id = "suggest_income")
+        ],style={'width':'25%', 'display': 'inline-block', 'vertical-align': 'top', 'border-color':'#D0D0D0',
+                 'border-style':'solid','border-width':'2px', 'padding':'2%'})
+    ])
+    ], style={'padding': '5%', 'width': '750px', 'margin': '0px auto', 'font-family':'微軟正黑體','backgroundColor':'white'}),
+], style={'padding':'5%','background-image':
+                    'url("https://cdn.pixabay.com/photo/2018/01/18/11/44/geometric-3090094_1280.png")'})
 
 @app.callback(
     dash.dependencies.Output('area_out', 'children'),
@@ -268,7 +307,11 @@ def update_bar_chart(hover_data):
                   "交易資訊": ["每坪單價", "總價元", "總坪數", "每坪單價", "總價元", "總坪數","每坪單價"],
                   "金額": [area_perprice,area_totalprice/20,area_totalsize*30000,house_perprice,house_totalprice/20,house_totalsize*30000,pred_perprice]
             })
-            fig = px.bar(df,x="交易資訊", y="金額", color="分類", barmode="group", 
+            fig = px.bar(df,x="交易資訊", y="金額", color="分類", barmode="group",
+                         color_discrete_map={
+                            "地區平均": "#548C00",
+                            "實際成交": "#73BF00",
+                            "模型預測": "#D26900"},
                          text = ['{} 萬元'.format(round(area_perprice/10000,1)),
                                  '{} 萬元'.format(round(area_totalprice/10000,1)),
                                  '{} 坪'.format(round(area_totalsize,1)),
@@ -285,7 +328,40 @@ def update_bar_chart(hover_data):
             })
             fig = px.bar(df,x="Catgory", y="Number", color="Area", barmode="group")
             return fig
+        
+@app.callback(
+    dash.dependencies.Output('updatemode-output-container', 'children'),
+    dash.dependencies.Input('loan_rate', 'value'))
+def display_value(value):
+    return '您目前的房貸利率為: {} %'.format(round(value*100,2))
 
+@app.callback(
+    dash.dependencies.Output('pay_before', 'children'),
+    dash.dependencies.Output('pay_after', 'children'),
+    dash.dependencies.Output('suggest_income', 'children'),
+    [dash.dependencies.Input('first_loan', 'value')],
+    [dash.dependencies.Input('loan_year', 'value')],
+    [dash.dependencies.Input('free_year', 'value')],
+    [dash.dependencies.Input('loan_rate', 'value')],
+    [dash.dependencies.Input('income_rate', 'value')],
+    dash.dependencies.Input('gapminder', 'clickData'))
+def update_output(first_loan, loan_year, free_year, loan_rate, income_rate, clickData):
+    if clickData is None:
+        return 'None','None','None'
+    else:
+        try:
+            location = clickData['points'][0]['text']
+            house_row = house_df[house_df['Address'] == location]
+            house_totalprice = house_row['總價元'].tolist()[0]
+            month_rate = loan_rate / 12
+            months = (loan_year - free_year) * 12
+            result_rate = (((1 + month_rate) ** months) * month_rate)/(((1 + month_rate) ** months) - 1)
+            pay_after = house_totalprice * (1 - first_loan) * result_rate
+            pay_before = house_totalprice * (1 - first_loan) * month_rate
+            suggest_income = pay_after / income_rate
+            return '{}萬元'.format(round(pay_before/10000,3)), '{}萬元'.format(round(pay_after/10000,2)), '{}萬元'.format(round(suggest_income/10000,2))
+        except:
+            return 'None', 'None', 'None'
 
 if __name__ == '__main__':
     application.run(host = '0.0.0.0', debug = True, port = 8053)
