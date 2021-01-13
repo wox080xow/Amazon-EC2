@@ -9,6 +9,7 @@
 .ssh/
 .sudo_as_admin_successful
 .wget-hsts
+.ipynb_checkpoints/
 __pycache__/
 
 # File Extension
