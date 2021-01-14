@@ -11,6 +11,7 @@
 .wget-hsts
 .viminfo
 .ipynb_checkpoints/
+.gitconfig
 __pycache__/
 
 # File Extension
