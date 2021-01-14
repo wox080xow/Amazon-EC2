@@ -5,7 +5,7 @@
 - Eric's Dash use Port 8083
 - Yoyou's Dash use Port 8084
 
-##If you have time, please make your .ipynb a .py, and edit the top and end of the code.
+## If you have time, please make your .ipynb a .py, and edit the top and end of the code.
 
 ### e.g.
 ### top of code
