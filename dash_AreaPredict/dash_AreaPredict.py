@@ -34,73 +34,73 @@ fig.update_layout(
         tickfont_size=14,
     ),
     barmode='group',
-    bargap=0.15, # gap between bars of adjacent location coordinates.
-    bargroupgap=0.1 # gap between bars of the same location coordinate.
+    bargap=0.15,  # gap between bars of adjacent location coordinates.
+    bargroupgap=0.1  # gap between bars of the same location coordinate.
 )
 
 # Dash app
-# app = JupyterDash(__name__)
-app = dash.Dash(__name__)
-application = app.server
-
+app = JupyterDash(__name__)
 
 # 1. layout
 app.layout = html.Div(
-    style={
-#         'background-image': "url(pic/blue-geometric.jpg)"},
-        'background-image': 'url(https://github.com/plotly/dash-docs/raw/master/images/dash-pattern.png)'},
-                      children=[
-                          # H1
-                          html.H1(
-                              children='台北市房價趨勢準準抓',
-                              style={'textAlign': 'left',
-                                     'color': '#09194F'}),
-                          # Markdown
-                          dcc.Markdown("請選擇所欲查詢地區"),
+        html.Div(
+        children=[
+            # H1
+            html.H1(
+                children='台北市房價趨勢準準抓',
+                style={'textAlign': 'left',
+                       'color': '#09194F'}),
+            # Markdown
+            dcc.Markdown("請選擇所欲查詢地區"),
 
-                          # Dropdown
-                          dcc.Dropdown(
-                              id='Area-dropdown',
-                              options=[{'label': i, 'value': i}
-                                       for i in df.Area.unique()],
-                              multi=True,
-                              value=['松山區']),
-                          # Graph 1
-                          html.H2(
-                              children='2014-2021年 台北市行政區房價預測',
-                              style={'textAlign': 'center',
-                                     'color': '#00818A'}),
+            # Dropdown
+            dcc.Dropdown(
+                id='Area-dropdown',
+                options=[{'label': i, 'value': i}
+                         for i in df.Area.unique()],
+                multi=True,
+                value=['松山區']),
+            # Graph 1
+            html.H2(
+                children='2014-2021年 台北市行政區房價預測',
+                style={'textAlign': 'center',
+                       'color': '#00818A'}),
 
-                          dcc.Graph(id='timeseries-graph'),
+            dcc.Graph(id='timeseries-graph'),
 
-                          # H4
-                          html.H4(children='2020/07-2021/12為預測值',
-                                  style={
-                                      'textAlign': 'right',
-                                      'color': '#00818A'
-                                  }),
+            # H4
+            html.H4(children='2020年Q4-2021年為預測值',
+                    style={
+                        'textAlign': 'right',
+                        'color': '#00818A'
+                    }),
 
-                          html.Br(),
-                          html.Br(),
-                          html.Br(),
+            html.Br(),
+            html.Br(),
+            html.Br(),
 
-                          # Graph 2
-                          html.H2(
-                              children='2020年 台北市行政區行情價漲跌預測',
-                              style={'textAlign': 'center',
-                                     'color': '#ec693f'}),
-                          dcc.Graph(figure=fig),
-                          
-                          # H4
-                          html.H4(children='以2020年市場價格作為基準',
-                                  style={
-                                      'textAlign': 'right',
-                                      'color': '#ec693f'
-                                  }),
-])
+            # Graph 2
+            html.H2(
+                children='2020年 台北市行政區合理行情價格推估',
+                style={'textAlign': 'center',
+                       'color': '#ec693f'}),
+            dcc.Graph(figure=fig),
+
+            # H4
+            html.H4(children='以2020年市場價格作為基準',
+                    style={
+                        'textAlign': 'right',
+                        'color': '#ec693f'
+                    }),
+        ],style={'padding': '5%', 'width': '750px', 'margin': '0px auto', 'font-family':'微軟正黑體','backgroundColor':'white'}),
+        
+    style={'padding':'5%','background-image':
+                    'url("https://cdn.pixabay.com/photo/2018/01/18/11/44/geometric-3090094_1280.png")'})
 
 # 2. callback
 # make apps interactive
+
+
 @ app.callback(
     dash.dependencies.Output('timeseries-graph', 'figure'),
     dash.dependencies.Input('Area-dropdown', 'value'))
@@ -130,7 +130,6 @@ def update_graph(Area_values):
             hovermode='closest'
         )
     }
-
 
 # 3. Name Convention
 if __name__ == '__main__':
