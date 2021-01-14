@@ -35,7 +35,8 @@ fig.update_layout(
     ),
     barmode='group',
     bargap=0.15,  # gap between bars of adjacent location coordinates.
-    bargroupgap=0.1  # gap between bars of the same location coordinate.
+    bargroupgap=0.1,  # gap between bars of the same location coordinate.
+    dragmode=False
 )
 
 # Dash app
@@ -130,7 +131,8 @@ def update_graph(Area_values):
             yaxis={'title': '房屋價格(萬/坪)'},
             # top / right / bottom / left
             margin={'l': 60, 'b': 50, 't': 80, 'r': 0},
-            hovermode='closest'
+            hovermode='closest',
+            dragmode=False
         )
     }
 

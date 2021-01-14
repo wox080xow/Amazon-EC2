@@ -321,6 +321,7 @@ def update_bar_chart(hover_data):
                                  '{} 萬元'.format(round(house_totalprice/10000,1)),
                                  '{} 坪'.format(round(house_totalsize,1)),
                                  '{} 萬元'.format(round(pred_perprice/10000,1))] )
+            fig.layout.update(dragmode=False)
             return fig
         except:
             df = pd.DataFrame({
