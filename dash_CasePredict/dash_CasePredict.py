@@ -46,6 +46,8 @@ application = app.server
 
 table_head = '150px' #設定表格的縮排
 
+app.title = '房屋行情快快搜'
+
 app.layout = html.Div([
     html.Div([
     html.Div([
