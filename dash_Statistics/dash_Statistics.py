@@ -7,9 +7,8 @@ import pandas as pd
 
 external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+app = dash.Dash(__name__)
 application = app.server
-
 app.title = '房屋環境細細察'
 
 df_env = pd.read_csv("data/EnvironmentalVar.csv")
@@ -25,7 +24,7 @@ app.layout = html.Div([
         html.Div([
         html.H2(children='台北市房屋環境細細察',style={'font-weight':'bold'}),
     html.Div([
-            html.H1('環境變數相關圖',style={'text-align':'center','color':'#FF8800'}),
+            html.H2('環境變數相關圖',style={'text-align':'center','color':'#FF8800', 'font-family':'微軟正黑體','font-weight':'bold'}),
         html.Div([
             html.H5("請選擇x軸環境變數",style={'font-weight':'bold'}),
             #下拉式篩選器設定
@@ -53,7 +52,7 @@ app.layout = html.Div([
 
     
     html.Div([
-            html.H1('經濟變數相關圖',style={'text-align':'center','color':'#FF8800'}),
+            html.H2('經濟變數相關圖',style={'text-align':'center','color':'#FF8800', 'font-family':'微軟正黑體','font-weight':'bold'}),
         html.Div([
             html.H5("請選擇經濟變數",style={'font-weight':'bold'}),
             
@@ -69,7 +68,7 @@ app.layout = html.Div([
     html.Div([],style={'height': '200px'}),
         
     html.Div([
-            html.H1('房屋特性相關圖',style={'text-align':'center','color':'#FF8800'}),
+            html.H2('房屋特性相關圖',style={'text-align':'center','color':'#FF8800', 'font-family':'微軟正黑體','font-weight':'bold'}),
         html.Div([
             html.H5("請選擇房屋特性",style={'font-weight':'bold'}),
             
@@ -97,7 +96,7 @@ def update_graph(xaxis_column_name, yaxis_column_name):
     if xaxis_column_name == None or yaxis_column_name == None:
         fig = px.scatter()
         fig.update_traces(textposition='top center')
-        fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest',font_size=16)
+        fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest',font_size=16,dragmode = False)
         return fig
     else:
         fig = px.scatter(x=df_env[xaxis_column_name],
@@ -105,7 +104,7 @@ def update_graph(xaxis_column_name, yaxis_column_name):
 
         fig.update_traces(textposition='top center')
 
-        fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest',font_size=16)
+        fig.update_layout(margin={'l': 40, 'b': 40, 't': 10, 'r': 0}, hovermode='closest',font_size=16,dragmode = False)
 
         fig.update_xaxes(title=xaxis_column_name)
 
@@ -119,14 +118,14 @@ def update_graph(xaxis_column_name, yaxis_column_name):
 def update_graph(xaxis_column_name):
     if xaxis_column_name == None:
         fig = px.bar()
-        fig.update_layout(yaxis={'categoryorder':'total ascending'},font_size=16)
+        fig.update_layout(yaxis={'categoryorder':'total ascending'},font_size=16,dragmode = False)
         return fig
     else:
-        fig = px.bar(x=df_eco[xaxis_column_name], y=df_eco['地區'],color_discrete_sequence=['#00DDDD'])
+        fig = px.bar(x=df_eco[xaxis_column_name], y=df_eco['地區'],color_discrete_sequence=['#00DDDD'], labels={'y':"地區"})
     
         fig.update_xaxes(title=xaxis_column_name)
 
-        fig.update_layout(yaxis={'categoryorder':'total ascending'},font_size=16)
+        fig.update_layout(yaxis={'categoryorder':'total ascending'},font_size=16,dragmode = False)
 
         return fig
 
@@ -136,7 +135,7 @@ def update_graph(xaxis_column_name):
 def update_graph(xaxis_column_name):
     if xaxis_column_name == None:
         fig = px.histogram()
-        fig.update_layout(yaxis={'categoryorder':'total ascending'},font_size=16)
+        fig.update_layout(yaxis={'categoryorder':'total ascending'},font_size=16,dragmode = False,yaxis_title="數量")
         return fig
     else:
         if xaxis_column_name == '樓層數' :
@@ -148,7 +147,7 @@ def update_graph(xaxis_column_name):
 
         fig.update_xaxes(title=xaxis_column_name)
 
-        fig.update_layout(yaxis={'categoryorder':'total ascending'},font_size=16)
+        fig.update_layout(yaxis={'categoryorder':'total ascending'},font_size=16,dragmode = False,yaxis_title="數量")
 
         return fig
 
