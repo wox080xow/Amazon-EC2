@@ -1,4 +1,4 @@
-# Use RAW mode to read the complete contents without hidden texts...
+~~# Use RAW mode to read the complete contents without hidden texts...
 
 ## Port of Dash Apps
 - Yang's Dash use Port 8082
@@ -9,8 +9,9 @@
 
 ### e.g.
 ### top of code
-#app = JupyterDash(__name__) # comment it
 ```
+#app = JupyterDash(__name__) # comment it
+
 app = dash.Dash(__name__) # new Line
 application = app.server # new Line
 ```
