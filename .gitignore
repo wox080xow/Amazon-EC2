@@ -14,5 +14,8 @@
 .gitconfig
 __pycache__/
 
+# Directory
+*/__pycache__/
+
 # File Extension
 *.pyc
