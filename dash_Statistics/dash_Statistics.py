@@ -10,6 +10,8 @@ external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
 app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 application = app.server
 
+app.title = '房屋環境細細察'
+
 df_env = pd.read_csv("data/EnvironmentalVar.csv")
 df_eco = pd.read_csv("data/EconomicVar.csv")
 df_house = pd.read_csv("data/HouseVar.csv")

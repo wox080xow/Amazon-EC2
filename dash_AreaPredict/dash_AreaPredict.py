@@ -39,7 +39,10 @@ fig.update_layout(
 )
 
 # Dash app
-app = JupyterDash(__name__)
+app = dash.Dash(__name__)
+application = app.server
+
+app.title = '房價趨勢準準抓'
 
 # 1. layout
 app.layout = html.Div(
