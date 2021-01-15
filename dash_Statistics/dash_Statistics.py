@@ -22,11 +22,11 @@ available_indicators2 = df_house.columns
 # layout
 app.layout = html.Div([
         html.Div([
-        html.H2(children='台北市房屋環境細細察',style={'font-weight':'bold'}),
+        html.H1(children='台北市房屋環境細細察',style={'font-weight':'bold'}),
     html.Div([
-            html.H2('環境變數相關圖',style={'text-align':'center','color':'#FF8800', 'font-family':'微軟正黑體','font-weight':'bold'}),
+            html.H1('環境變數相關圖',style={'text-align':'center','color':'#FF8800', 'font-family':'微軟正黑體','font-weight':'bold'}),
         html.Div([
-            html.H5("請選擇x軸環境變數",style={'font-weight':'bold'}),
+            html.H3("請選擇x軸環境變數",style={'font-weight':'bold'}),
             #下拉式篩選器設定
             dcc.Dropdown(
                 id='xaxis-column',
@@ -37,7 +37,7 @@ app.layout = html.Div([
         style={'width': '30%', 'display': 'inline-block'}),
 
         html.Div([
-            html.H5("請選擇y軸環境變數",style={'font-weight':'bold'}),
+            html.H3("請選擇y軸環境變數",style={'font-weight':'bold'}),
             
             dcc.Dropdown(
                 id='yaxis-column',
@@ -52,9 +52,9 @@ app.layout = html.Div([
 
     
     html.Div([
-            html.H2('經濟變數相關圖',style={'text-align':'center','color':'#FF8800', 'font-family':'微軟正黑體','font-weight':'bold'}),
+            html.H1('經濟變數相關圖',style={'text-align':'center','color':'#FF8800', 'font-family':'微軟正黑體','font-weight':'bold'}),
         html.Div([
-            html.H5("請選擇經濟變數",style={'font-weight':'bold'}),
+            html.H3("請選擇經濟變數",style={'font-weight':'bold'}),
             
             dcc.Dropdown(
                 id='xaxis-column1',
@@ -68,9 +68,9 @@ app.layout = html.Div([
     html.Div([],style={'height': '200px'}),
         
     html.Div([
-            html.H2('房屋特性相關圖',style={'text-align':'center','color':'#FF8800', 'font-family':'微軟正黑體','font-weight':'bold'}),
+            html.H1('房屋特性相關圖',style={'text-align':'center','color':'#FF8800', 'font-family':'微軟正黑體','font-weight':'bold'}),
         html.Div([
-            html.H5("請選擇房屋特性",style={'font-weight':'bold'}),
+            html.H4("請選擇房屋特性",style={'font-weight':'bold'}),
             
             dcc.Dropdown(
                 id='xaxis-column2',
@@ -100,7 +100,7 @@ def update_graph(xaxis_column_name, yaxis_column_name):
         return fig
     else:
         fig = px.scatter(x=df_env[xaxis_column_name],
-                         y=df_env[yaxis_column_name], text = df_env['地區'],size = df_env[xaxis_column_name],color= df_env[yaxis_column_name])
+                         y=df_env[yaxis_column_name], text = df_env['地區'],size = df_env[xaxis_column_name],color= df_env[yaxis_column_name], labels={'color':' '})
 
         fig.update_traces(textposition='top center')
 
