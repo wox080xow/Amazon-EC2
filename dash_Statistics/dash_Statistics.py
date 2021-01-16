@@ -70,7 +70,7 @@ app.layout = html.Div([
     html.Div([
             html.H1('房屋特性相關圖',style={'text-align':'center','color':'#FF8800', 'font-family':'微軟正黑體','font-weight':'bold'}),
         html.Div([
-            html.H4("請選擇房屋特性",style={'font-weight':'bold'}),
+            html.H3("請選擇房屋特性",style={'font-weight':'bold'}),
             
             dcc.Dropdown(
                 id='xaxis-column2',
