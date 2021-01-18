@@ -6,6 +6,6 @@
 
 # for Mac OS X
 dashPID=$(lsof -nPi | grep 805 | sed "s/    / /g" | cut -d' ' -f2)
-kill -s $dashPID
+kill $dashPID
 echo $dashPID
 echo 'All Dash Apps stoped.'
