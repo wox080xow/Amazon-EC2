@@ -12,7 +12,11 @@
 .viminfo
 .ipynb_checkpoints/
 .gitconfig
+.lesshst
 __pycache__/
+
+7896F3E4B86F94ECD29BAC7DB68E256F.txt
+bts.viewdns.net.zip
 
 # File Extension
 *.pyc
